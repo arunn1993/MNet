@@ -167,23 +167,60 @@
         android:layout_alignParentBottom="true"
         android:weightSum="2">
 
-        <Button
-            android:id="@+id/fabPrev"
+        <RelativeLayout
+            android:id="@+id/prevLayout"
             android:layout_weight="1"
-            android:background="@color/secondaryBtnColor"
-            android:textColor="@android:color/white"
-            android:text="Back"
             android:visibility="gone"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-        <Button
-            android:id="@+id/fabNext"
+            android:layout_height="wrap_content"
+            android:background="@color/secondaryBtnColor">
+            <TextView
+                android:id="@+id/prevText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Back"
+                android:textColor="@android:color/white"
+                android:textSize="20sp"
+                android:layout_centerInParent="true"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"/>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@+id/prevText"
+                android:src="@drawable/back_main"
+                android:layout_centerInParent="true"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/nextLayout"
             android:layout_weight="1"
-            android:background="@color/primaryBtnColor"
-            android:textColor="@android:color/white"
-            android:text="Next"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:background="@color/primaryBtnColor">
+            <TextView
+                android:id="@+id/nextText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Next"
+                android:textColor="@android:color/white"
+                android:textSize="20sp"
+                android:layout_centerInParent="true"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"/>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/nextText"
+                android:src="@drawable/next_main"
+                android:layout_centerInParent="true"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"/>
+        </RelativeLayout>
 
     </LinearLayout>
 

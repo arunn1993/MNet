@@ -45,8 +45,8 @@ public class MainActivity extends AppCompatActivity {
 
     private String selectedType;
 
-    private Button nextButton;
-    private Button previousButton;
+    private RelativeLayout nextLayout;
+    private RelativeLayout prevLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,8 +55,8 @@ public class MainActivity extends AppCompatActivity {
 
         currentMode = MODES.NAME;
 
-        nextButton = (Button) findViewById(R.id.fabNext);
-        previousButton = (Button) findViewById(R.id.fabPrev);
+        nextLayout = (RelativeLayout) findViewById(R.id.nextLayout);
+        prevLayout = (RelativeLayout) findViewById(R.id.prevLayout);
 
         nameLayout = (RelativeLayout) findViewById(R.id.nameLayout);
         emailLayout = (RelativeLayout) findViewById(R.id.emailLayout);
@@ -74,8 +74,8 @@ public class MainActivity extends AppCompatActivity {
         phoneEditText = (EditText) findViewById(R.id.phoneEditText);
         typeSpinner = (Spinner) findViewById(R.id.typeSpinner);
 
-        nextButton.setOnClickListener(nextClickListener);
-        previousButton.setOnClickListener(prevClickListener);
+        nextLayout.setOnClickListener(nextClickListener);
+        prevLayout.setOnClickListener(prevClickListener);
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.type_array, R.layout.type_spinner_item);
@@ -109,8 +109,8 @@ public class MainActivity extends AppCompatActivity {
                     if(TextUtils.isEmpty(nameEditText.getText())) {
                         nameError.setVisibility(View.VISIBLE);
                     } else {
-                        previousButton.setVisibility(View.VISIBLE);
-                        previousButton.startAnimation(zoomIn);
+                        prevLayout.setVisibility(View.VISIBLE);
+                        prevLayout.startAnimation(zoomIn);
                         nameError.setVisibility(View.GONE);
                         nameLayout.setVisibility(View.GONE);
                         nameLayout.startAnimation(slideLeftCurrent);
@@ -147,8 +147,8 @@ public class MainActivity extends AppCompatActivity {
                     if(TextUtils.isEmpty(selectedType)) {
                         typeError.setVisibility(View.VISIBLE);
                     } else {
-                        previousButton.setVisibility(View.GONE);
-                        previousButton.startAnimation(zoomOut);
+                        prevLayout.setVisibility(View.GONE);
+                        prevLayout.startAnimation(zoomOut);
                         typeError.setVisibility(View.GONE);
                         typeLayout.setVisibility(View.GONE);
                         typeLayout.startAnimation(slideLeftCurrent);
@@ -182,8 +182,8 @@ public class MainActivity extends AppCompatActivity {
             Animation zoomOut = AnimationUtils.loadAnimation(MainActivity.this, R.anim.zoom_out);
             switch (currentMode) {
                 case EMAIL:
-                    previousButton.setVisibility(View.GONE);
-                    previousButton.startAnimation(zoomOut);
+                    prevLayout.setVisibility(View.GONE);
+                    prevLayout.startAnimation(zoomOut);
                     emailLayout.setVisibility(View.GONE);
                     emailLayout.startAnimation(slideRightCurrent);
                     nameLayout.setVisibility(View.VISIBLE);
