@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.simp.mnet.MainActivity">
+
+    <RelativeLayout
+        android:id="@+id/nameLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="20dp"
+        android:layout_centerVertical="true">
+        <TextView
+            android:id="@+id/nameLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:textColor="@color/labelColor"
+            android:text="Name"/>
+        <EditText
+            android:id="@+id/nameEditText"
+            android:layout_below="@+id/nameLabel"
+            android:layout_width="match_parent"
+            android:textSize="20sp"
+            android:textColor="@color/textColor"
+            android:hint="Please enter your name"
+            android:layout_marginTop="10dp"
+            android:padding="15dp"
+            android:background="@drawable/edit_text_bg"
+            android:maxLines="1"
+            android:inputType="textPersonName"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/nameError"
+            android:layout_above="@+id/nameEditText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:textColor="@android:color/holo_red_light"
+            android:visibility="gone"
+            android:text="Enter name"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/emailLayout"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="20dp"
+        android:layout_centerVertical="true">
+        <TextView
+            android:id="@+id/emailLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:text="Email"/>
+        <EditText
+            android:id="@+id/emailEditText"
+            android:layout_below="@+id/emailLabel"
+            android:layout_width="match_parent"
+            android:textSize="20sp"
+            android:hint="Please enter your name"
+            android:layout_marginTop="10dp"
+            android:padding="15dp"
+            android:background="@drawable/edit_text_bg"
+            android:maxLines="1"
+            android:inputType="textEmailAddress"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/emailError"
+            android:layout_above="@+id/emailEditText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:textColor="@android:color/holo_red_light"
+            android:visibility="gone"
+            android:text="Enter a valid email"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/phoneLayout"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="20dp"
+        android:layout_centerVertical="true">
+        <TextView
+            android:id="@+id/phoneLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:hint="Please enter your name"
+            android:layout_marginTop="10dp"
+            android:padding="15dp"
+            android:background="@drawable/edit_text_bg"
+            android:maxLines="1"
+            android:text="Phone Number"/>
+        <EditText
+            android:id="@+id/phoneEditText"
+            android:layout_below="@+id/phoneLabel"
+            android:layout_width="match_parent"
+            android:textSize="20sp"
+            android:inputType="phone"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/phoneError"
+            android:layout_above="@+id/phoneEditText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:textColor="@android:color/holo_red_light"
+            android:visibility="gone"
+            android:text="Enter a valid phone number"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/typeLayout"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="20dp"
+        android:layout_centerVertical="true">
+        <TextView
+            android:id="@+id/typeLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:text="Type"/>
+        <Spinner
+            android:id="@+id/typeSpinner"
+            android:layout_below="@+id/typeLabel"
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/typeError"
+            android:layout_above="@+id/typeSpinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:textColor="@android:color/holo_red_light"
+            android:visibility="gone"
+            android:text="Select a type"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/successLayout"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="20dp"
+        android:layout_centerVertical="true">
+        <TextView
+            android:id="@+id/successText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:text="Thanks You! Your information is submitted!"/>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="30dp"
+        android:layout_alignParentBottom="true"
+        android:weightSum="2">
+
+        <Button
+            android:id="@+id/fabPrev"
+            android:layout_weight="1"
+            android:background="@color/secondaryBtnColor"
+            android:textColor="@android:color/white"
+            android:text="Back"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <Button
+            android:id="@+id/fabNext"
+            android:layout_weight="1"
+            android:background="@color/primaryBtnColor"
+            android:textColor="@android:color/white"
+            android:text="Next"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+</RelativeLayout>

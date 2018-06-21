@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">MNet</string>
+
+    <string-array name="type_array">
+        <item>New Internet Connection</item>
+        <item>New Phone Connection</item>
+        <item>Update Current Connection</item>
+    </string-array>
+</resources>
