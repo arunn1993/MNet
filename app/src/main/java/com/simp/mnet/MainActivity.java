@@ -117,6 +117,7 @@ public class MainActivity extends FragmentActivity {
                         showAlert(relativeLayout, "Please enter a name");
                     } else {
                         prevLayout.setVisibility(View.VISIBLE);
+                        nextLayout.setBackground(getResources().getDrawable(R.drawable.next_btn_bg_corner));
                         nameLayout.setVisibility(View.GONE);
                         nameLayout.startAnimation(slideLeftCurrent);
                         emailLayout.setVisibility(View.VISIBLE);
@@ -162,6 +163,7 @@ public class MainActivity extends FragmentActivity {
             switch (currentMode) {
                 case EMAIL:
                     prevLayout.setVisibility(View.GONE);
+                    nextLayout.setBackground(getResources().getDrawable(R.drawable.next_btn_bg));
                     emailLayout.setVisibility(View.GONE);
                     emailLayout.startAnimation(slideRightCurrent);
                     nameLayout.setVisibility(View.VISIBLE);

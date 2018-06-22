@@ -10,6 +10,7 @@
 
     <color name="primaryBtnColor">#3e85c5</color>
     <color name="secondaryBtnColor">#174d87</color>
+    <color name="btnPressedColor">#5ab6cc</color>
 
     <color name="primaryGradient">#1b75bb</color>
     <color name="secondaryGradient">#51b4e5</color>
