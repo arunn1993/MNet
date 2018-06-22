@@ -2,12 +2,15 @@ package com.simp.mnet;
 
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Patterns;
 import android.view.Gravity;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
@@ -19,7 +22,7 @@ import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends FragmentActivity {
 
     private enum MODES {
         NAME,
@@ -52,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
 
         currentMode = MODES.NAME;
@@ -100,15 +104,12 @@ public class MainActivity extends AppCompatActivity {
         public void onClick(View view) {
             Animation slideLeft = AnimationUtils.loadAnimation(MainActivity.this, R.anim.slide_left);
             Animation slideLeftCurrent = AnimationUtils.loadAnimation(MainActivity.this, R.anim.slide_left_current);
-            Animation zoomIn = AnimationUtils.loadAnimation(MainActivity.this, R.anim.zoom_in);
-            Animation zoomOut = AnimationUtils.loadAnimation(MainActivity.this, R.anim.zoom_out);
             switch (currentMode) {
                 case NAME:
                     if(TextUtils.isEmpty(nameEditText.getText())) {
                         showAlert(relativeLayout, "Enter a name");
                     } else {
                         prevLayout.setVisibility(View.VISIBLE);
-                        prevLayout.startAnimation(zoomIn);
                         nameLayout.setVisibility(View.GONE);
                         nameLayout.startAnimation(slideLeftCurrent);
                         emailLayout.setVisibility(View.VISIBLE);
@@ -143,7 +144,6 @@ public class MainActivity extends AppCompatActivity {
                         showAlert(relativeLayout, "Select a type");
                     } else {
                         prevLayout.setVisibility(View.GONE);
-                        prevLayout.startAnimation(zoomOut);
                         typeLayout.setVisibility(View.GONE);
                         typeLayout.startAnimation(slideLeftCurrent);
                         successLayout.setVisibility(View.VISIBLE);
@@ -173,11 +173,9 @@ public class MainActivity extends AppCompatActivity {
         public void onClick(View view) {
             Animation slideRight = AnimationUtils.loadAnimation(MainActivity.this, R.anim.slide_right);
             Animation slideRightCurrent = AnimationUtils.loadAnimation(MainActivity.this, R.anim.slide_right_current);
-            Animation zoomOut = AnimationUtils.loadAnimation(MainActivity.this, R.anim.zoom_out);
             switch (currentMode) {
                 case EMAIL:
                     prevLayout.setVisibility(View.GONE);
-                    prevLayout.startAnimation(zoomOut);
                     emailLayout.setVisibility(View.GONE);
                     emailLayout.startAnimation(slideRightCurrent);
                     nameLayout.setVisibility(View.VISIBLE);

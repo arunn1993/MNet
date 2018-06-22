@@ -108,7 +108,9 @@
         <Spinner
             android:id="@+id/typeSpinner"
             android:layout_below="@+id/typeLabel"
-
+            android:layout_marginTop="10dp"
+            android:padding="15dp"
+            android:background="@drawable/edit_text_bg"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </RelativeLayout>
