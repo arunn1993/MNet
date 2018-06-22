@@ -1,5 +1,6 @@
 package com.simp.mnet;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
@@ -16,6 +17,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -113,11 +115,25 @@ public class MainActivity extends FragmentActivity {
     public boolean dispatchKeyEvent(KeyEvent event) {
         if (event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
             if (event.getAction() == KeyEvent.ACTION_UP){
-                performNext();
+                if(currentMode == MODES.TYPE) {
+                    performSubmit();
+                    hideVirtualKeyboard();
+                } else {
+                    performNext();
+                }
                 return true;
             }
         }
         return super.dispatchKeyEvent(event);
+    }
+
+    private void hideVirtualKeyboard() {
+        try {
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(getWindow().getDecorView()
+                    .getWindowToken(), 0);
+        } catch (Exception e) {
+        }
     }
 
     private View.OnClickListener nextClickListener =  new View.OnClickListener() {
@@ -213,26 +229,31 @@ public class MainActivity extends FragmentActivity {
     private View.OnClickListener submitClickListener =  new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            Animation slideLeft = AnimationUtils.loadAnimation(MainActivity.this, R.anim.slide_left);
-            Animation slideLeftCurrent = AnimationUtils.loadAnimation(MainActivity.this, R.anim.slide_left_current);
-            if(TextUtils.isEmpty(selectedType)) {
-                showAlert(relativeLayout, "Select a type");
-            } else {
-                typeLayout.setVisibility(View.GONE);
-                typeLayout.startAnimation(slideLeftCurrent);
-                successLayout.setVisibility(View.VISIBLE);
-                successLayout.startAnimation(slideLeft);
-                submitLayout.setVisibility(View.GONE);
-                prevLayout.setVisibility(View.GONE);
-                homeLayout.setVisibility(View.VISIBLE);
-                nameEditText.setText("");
-                emailEditText.setText("");
-                phoneEditText.setText("");
-                typeSpinner.setSelection(0);
-                currentMode = MODES.SUCCESS;
-            }
+            performSubmit();
         }
     };
+
+    private void performSubmit() {
+        Animation slideLeft = AnimationUtils.loadAnimation(MainActivity.this, R.anim.slide_left);
+        Animation slideLeftCurrent = AnimationUtils.loadAnimation(MainActivity.this, R.anim.slide_left_current);
+        if(TextUtils.isEmpty(selectedType)) {
+            showAlert(relativeLayout, "Select a type");
+        } else {
+            typeLayout.setVisibility(View.GONE);
+            typeLayout.startAnimation(slideLeftCurrent);
+            successLayout.setVisibility(View.VISIBLE);
+            successLayout.startAnimation(slideLeft);
+            submitLayout.setVisibility(View.GONE);
+            prevLayout.setVisibility(View.GONE);
+            homeLayout.setVisibility(View.VISIBLE);
+            nameEditText.setText("");
+            emailEditText.setText("");
+            phoneEditText.setText("");
+            typeSpinner.setSelection(0);
+            currentMode = MODES.SUCCESS;
+        }
+
+    }
 
     private View.OnClickListener homeClickListener =  new View.OnClickListener() {
         @Override
@@ -244,6 +265,7 @@ public class MainActivity extends FragmentActivity {
             nameLayout.setVisibility(View.VISIBLE);
             nameLayout.startAnimation(slideLeft);
             nextLayout.setVisibility(View.VISIBLE);
+            nextLayout.setBackground(getResources().getDrawable(R.drawable.next_btn_bg));
             homeLayout.setVisibility(View.GONE);
             currentMode = MODES.NAME;
         }
