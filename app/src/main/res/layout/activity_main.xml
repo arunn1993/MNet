@@ -148,6 +148,7 @@
             android:layout_height="wrap_content"
             android:textSize="20sp"
             android:textAlignment="center"
+            android:textColor="@color/labelColor"
             android:text="Thanks You! Your information is submitted!"/>
     </RelativeLayout>
 

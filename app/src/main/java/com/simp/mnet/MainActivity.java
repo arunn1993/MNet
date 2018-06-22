@@ -1,13 +1,16 @@
 package com.simp.mnet;
 
+import android.content.Intent;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -106,54 +109,69 @@ public class MainActivity extends FragmentActivity {
         }
     };
 
+    @Override
+    public boolean dispatchKeyEvent(KeyEvent event) {
+        if (event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
+            if (event.getAction() == KeyEvent.ACTION_UP){
+                performNext();
+                return true;
+            }
+        }
+        return super.dispatchKeyEvent(event);
+    }
+
     private View.OnClickListener nextClickListener =  new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            Animation slideLeft = AnimationUtils.loadAnimation(MainActivity.this, R.anim.slide_left);
-            Animation slideLeftCurrent = AnimationUtils.loadAnimation(MainActivity.this, R.anim.slide_left_current);
-            switch (currentMode) {
-                case NAME:
-                    if(TextUtils.isEmpty(nameEditText.getText())) {
-                        showAlert(relativeLayout, "Please enter a name");
-                    } else {
-                        prevLayout.setVisibility(View.VISIBLE);
-                        nextLayout.setBackground(getResources().getDrawable(R.drawable.next_btn_bg_corner));
-                        nameLayout.setVisibility(View.GONE);
-                        nameLayout.startAnimation(slideLeftCurrent);
-                        emailLayout.setVisibility(View.VISIBLE);
-                        emailLayout.startAnimation(slideLeft);
-                        currentMode = MODES.EMAIL;
-                    }
-                    break;
-                case EMAIL:
-                    if(!isValidEmail(emailEditText.getText())) {
-                        showAlert(relativeLayout, "Please enter a valid email");
-                    } else {
-                        emailLayout.setVisibility(View.GONE);
-                        emailLayout.startAnimation(slideLeftCurrent);
-                        phoneLayout.setVisibility(View.VISIBLE);
-                        phoneLayout.startAnimation(slideLeft);
-                        currentMode = MODES.PHONE;
-                    }
-                    break;
-                case PHONE:
-                    if(!isValidPhone((phoneEditText.getText()))) {
-                        showAlert(relativeLayout, "Please enter a valid phone number");
-                    } else {
-                        phoneLayout.setVisibility(View.GONE);
-                        phoneLayout.startAnimation(slideLeftCurrent);
-                        typeLayout.setVisibility(View.VISIBLE);
-                        typeLayout.startAnimation(slideLeft);
-                        nextLayout.setVisibility(View.GONE);
-                        submitLayout.setVisibility(View.VISIBLE);
-                        currentMode = MODES.TYPE;
-                    }
-                    break;
-                default:
-                    break;
-            }
+            performNext();
         }
     };
+
+    private void performNext() {
+        Animation slideLeft = AnimationUtils.loadAnimation(MainActivity.this, R.anim.slide_left);
+        Animation slideLeftCurrent = AnimationUtils.loadAnimation(MainActivity.this, R.anim.slide_left_current);
+        switch (currentMode) {
+            case NAME:
+                if(TextUtils.isEmpty(nameEditText.getText())) {
+                    showAlert(relativeLayout, "Please enter a name");
+                } else {
+                    prevLayout.setVisibility(View.VISIBLE);
+                    nextLayout.setBackground(getResources().getDrawable(R.drawable.next_btn_bg_corner));
+                    nameLayout.setVisibility(View.GONE);
+                    nameLayout.startAnimation(slideLeftCurrent);
+                    emailLayout.setVisibility(View.VISIBLE);
+                    emailLayout.startAnimation(slideLeft);
+                    currentMode = MODES.EMAIL;
+                }
+                break;
+            case EMAIL:
+                if(!isValidEmail(emailEditText.getText())) {
+                    showAlert(relativeLayout, "Please enter a valid email");
+                } else {
+                    emailLayout.setVisibility(View.GONE);
+                    emailLayout.startAnimation(slideLeftCurrent);
+                    phoneLayout.setVisibility(View.VISIBLE);
+                    phoneLayout.startAnimation(slideLeft);
+                    currentMode = MODES.PHONE;
+                }
+                break;
+            case PHONE:
+                if(!isValidPhone((phoneEditText.getText()))) {
+                    showAlert(relativeLayout, "Please enter a valid phone number");
+                } else {
+                    phoneLayout.setVisibility(View.GONE);
+                    phoneLayout.startAnimation(slideLeftCurrent);
+                    typeLayout.setVisibility(View.VISIBLE);
+                    typeLayout.startAnimation(slideLeft);
+                    nextLayout.setVisibility(View.GONE);
+                    submitLayout.setVisibility(View.VISIBLE);
+                    currentMode = MODES.TYPE;
+                }
+                break;
+            default:
+                break;
+        }
+    }
 
     private View.OnClickListener prevClickListener =  new View.OnClickListener() {
         @Override
