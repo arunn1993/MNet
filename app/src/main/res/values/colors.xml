@@ -13,4 +13,6 @@
 
     <color name="primaryGradient">#1b75bb</color>
     <color name="secondaryGradient">#51b4e5</color>
+
+    <color name="error">#ca5e58</color>
 </resources>

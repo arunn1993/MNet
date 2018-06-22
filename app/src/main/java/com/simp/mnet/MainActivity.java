@@ -18,6 +18,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -49,8 +50,10 @@ public class MainActivity extends FragmentActivity {
 
     private String selectedType;
 
+    private ImageView homeLayout;
     private RelativeLayout nextLayout;
     private RelativeLayout prevLayout;
+    private RelativeLayout submitLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,10 +63,12 @@ public class MainActivity extends FragmentActivity {
 
         currentMode = MODES.NAME;
 
+        relativeLayout = (RelativeLayout) findViewById(R.id.relativeLayout);
+
         nextLayout = (RelativeLayout) findViewById(R.id.nextLayout);
         prevLayout = (RelativeLayout) findViewById(R.id.prevLayout);
-
-        relativeLayout = (RelativeLayout) findViewById(R.id.relativeLayout);
+        submitLayout = (RelativeLayout) findViewById(R.id.submitLayout);
+        homeLayout = (ImageView) findViewById(R.id.homeLayout);
 
         nameLayout = (RelativeLayout) findViewById(R.id.nameLayout);
         emailLayout = (RelativeLayout) findViewById(R.id.emailLayout);
@@ -78,6 +83,8 @@ public class MainActivity extends FragmentActivity {
 
         nextLayout.setOnClickListener(nextClickListener);
         prevLayout.setOnClickListener(prevClickListener);
+        submitLayout.setOnClickListener(submitClickListener);
+        homeLayout.setOnClickListener(homeClickListener);
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.type_array, R.layout.type_spinner_item);
@@ -107,7 +114,7 @@ public class MainActivity extends FragmentActivity {
             switch (currentMode) {
                 case NAME:
                     if(TextUtils.isEmpty(nameEditText.getText())) {
-                        showAlert(relativeLayout, "Enter a name");
+                        showAlert(relativeLayout, "Please enter a name");
                     } else {
                         prevLayout.setVisibility(View.VISIBLE);
                         nameLayout.setVisibility(View.GONE);
@@ -119,7 +126,7 @@ public class MainActivity extends FragmentActivity {
                     break;
                 case EMAIL:
                     if(!isValidEmail(emailEditText.getText())) {
-                        showAlert(relativeLayout, "Enter a valid email");
+                        showAlert(relativeLayout, "Please enter a valid email");
                     } else {
                         emailLayout.setVisibility(View.GONE);
                         emailLayout.startAnimation(slideLeftCurrent);
@@ -130,37 +137,16 @@ public class MainActivity extends FragmentActivity {
                     break;
                 case PHONE:
                     if(!isValidPhone((phoneEditText.getText()))) {
-                        showAlert(relativeLayout, "Enter a valid phone number");
+                        showAlert(relativeLayout, "Please enter a valid phone number");
                     } else {
                         phoneLayout.setVisibility(View.GONE);
                         phoneLayout.startAnimation(slideLeftCurrent);
                         typeLayout.setVisibility(View.VISIBLE);
                         typeLayout.startAnimation(slideLeft);
+                        nextLayout.setVisibility(View.GONE);
+                        submitLayout.setVisibility(View.VISIBLE);
                         currentMode = MODES.TYPE;
                     }
-                    break;
-                case TYPE:
-                    if(TextUtils.isEmpty(selectedType)) {
-                        showAlert(relativeLayout, "Select a type");
-                    } else {
-                        prevLayout.setVisibility(View.GONE);
-                        typeLayout.setVisibility(View.GONE);
-                        typeLayout.startAnimation(slideLeftCurrent);
-                        successLayout.setVisibility(View.VISIBLE);
-                        successLayout.startAnimation(slideLeft);
-                        nameEditText.setText("");
-                        emailEditText.setText("");
-                        phoneEditText.setText("");
-                        typeSpinner.setSelection(0);
-                        currentMode = MODES.SUCCESS;
-                    }
-                    break;
-                case SUCCESS:
-                    successLayout.setVisibility(View.GONE);
-                    successLayout.startAnimation(slideLeftCurrent);
-                    nameLayout.setVisibility(View.VISIBLE);
-                    nameLayout.startAnimation(slideLeft);
-                    currentMode = MODES.NAME;
                     break;
                 default:
                     break;
@@ -194,6 +180,8 @@ public class MainActivity extends FragmentActivity {
                     typeLayout.startAnimation(slideRightCurrent);
                     phoneLayout.setVisibility(View.VISIBLE);
                     phoneLayout.startAnimation(slideRight);
+                    nextLayout.setVisibility(View.VISIBLE);
+                    submitLayout.setVisibility(View.GONE);
                     currentMode = MODES.PHONE;
                     break;
                 default:
@@ -202,11 +190,51 @@ public class MainActivity extends FragmentActivity {
         }
     };
 
+    private View.OnClickListener submitClickListener =  new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            Animation slideLeft = AnimationUtils.loadAnimation(MainActivity.this, R.anim.slide_left);
+            Animation slideLeftCurrent = AnimationUtils.loadAnimation(MainActivity.this, R.anim.slide_left_current);
+            if(TextUtils.isEmpty(selectedType)) {
+                showAlert(relativeLayout, "Select a type");
+            } else {
+                typeLayout.setVisibility(View.GONE);
+                typeLayout.startAnimation(slideLeftCurrent);
+                successLayout.setVisibility(View.VISIBLE);
+                successLayout.startAnimation(slideLeft);
+                submitLayout.setVisibility(View.GONE);
+                prevLayout.setVisibility(View.GONE);
+                homeLayout.setVisibility(View.VISIBLE);
+                nameEditText.setText("");
+                emailEditText.setText("");
+                phoneEditText.setText("");
+                typeSpinner.setSelection(0);
+                currentMode = MODES.SUCCESS;
+            }
+        }
+    };
+
+    private View.OnClickListener homeClickListener =  new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            Animation slideLeft = AnimationUtils.loadAnimation(MainActivity.this, R.anim.slide_left);
+            Animation slideLeftCurrent = AnimationUtils.loadAnimation(MainActivity.this, R.anim.slide_left_current);
+            successLayout.setVisibility(View.GONE);
+            successLayout.startAnimation(slideLeftCurrent);
+            nameLayout.setVisibility(View.VISIBLE);
+            nameLayout.startAnimation(slideLeft);
+            nextLayout.setVisibility(View.VISIBLE);
+            homeLayout.setVisibility(View.GONE);
+            currentMode = MODES.NAME;
+        }
+    };
+
     private void showAlert(View view, String message) {
         Snackbar snackbar = Snackbar.make(view, message, Snackbar.LENGTH_LONG);
         View snackBarView = snackbar.getView();
-        snackBarView.setBackgroundColor(getResources().getColor(R.color.primaryBtnColor));
+        snackBarView.setBackgroundColor(getResources().getColor(R.color.error));
         TextView textView = (TextView) snackBarView.findViewById(android.support.design.R.id.snackbar_text);
+        textView.setTextSize(20);
         textView.setTextColor(getResources().getColor(R.color.white));
         snackbar.show();
     }
