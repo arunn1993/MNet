@@ -1,9 +1,12 @@
 package com.simp.mnet;
 
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Patterns;
+import android.view.Gravity;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -11,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -27,16 +31,13 @@ public class MainActivity extends AppCompatActivity {
 
     private MODES currentMode;
 
+    private RelativeLayout relativeLayout;
+
     private RelativeLayout nameLayout;
     private RelativeLayout emailLayout;
     private RelativeLayout phoneLayout;
     private RelativeLayout typeLayout;
     private RelativeLayout successLayout;
-
-    private TextView nameError;
-    private TextView emailError;
-    private TextView phoneError;
-    private TextView typeError;
 
     private EditText nameEditText;
     private EditText emailEditText;
@@ -58,16 +59,13 @@ public class MainActivity extends AppCompatActivity {
         nextLayout = (RelativeLayout) findViewById(R.id.nextLayout);
         prevLayout = (RelativeLayout) findViewById(R.id.prevLayout);
 
+        relativeLayout = (RelativeLayout) findViewById(R.id.relativeLayout);
+
         nameLayout = (RelativeLayout) findViewById(R.id.nameLayout);
         emailLayout = (RelativeLayout) findViewById(R.id.emailLayout);
         phoneLayout = (RelativeLayout) findViewById(R.id.phoneLayout);
         typeLayout = (RelativeLayout) findViewById(R.id.typeLayout);
         successLayout = (RelativeLayout) findViewById(R.id.successLayout);
-
-        nameError = (TextView) findViewById(R.id.nameError);
-        emailError = (TextView) findViewById(R.id.emailError);
-        phoneError = (TextView) findViewById(R.id.phoneError);
-        typeError = (TextView) findViewById(R.id.typeError);
 
         nameEditText = (EditText) findViewById(R.id.nameEditText);
         emailEditText = (EditText) findViewById(R.id.emailEditText);
@@ -107,11 +105,10 @@ public class MainActivity extends AppCompatActivity {
             switch (currentMode) {
                 case NAME:
                     if(TextUtils.isEmpty(nameEditText.getText())) {
-                        nameError.setVisibility(View.VISIBLE);
+                        showAlert(relativeLayout, "Enter a name");
                     } else {
                         prevLayout.setVisibility(View.VISIBLE);
                         prevLayout.startAnimation(zoomIn);
-                        nameError.setVisibility(View.GONE);
                         nameLayout.setVisibility(View.GONE);
                         nameLayout.startAnimation(slideLeftCurrent);
                         emailLayout.setVisibility(View.VISIBLE);
@@ -121,9 +118,8 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case EMAIL:
                     if(!isValidEmail(emailEditText.getText())) {
-                        emailError.setVisibility(View.VISIBLE);
+                        showAlert(relativeLayout, "Enter a valid email");
                     } else {
-                        emailError.setVisibility(View.GONE);
                         emailLayout.setVisibility(View.GONE);
                         emailLayout.startAnimation(slideLeftCurrent);
                         phoneLayout.setVisibility(View.VISIBLE);
@@ -133,9 +129,8 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case PHONE:
                     if(!isValidPhone((phoneEditText.getText()))) {
-                        phoneError.setVisibility(View.VISIBLE);
+                        showAlert(relativeLayout, "Enter a valid phone number");
                     } else {
-                        phoneError.setVisibility(View.GONE);
                         phoneLayout.setVisibility(View.GONE);
                         phoneLayout.startAnimation(slideLeftCurrent);
                         typeLayout.setVisibility(View.VISIBLE);
@@ -145,11 +140,10 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case TYPE:
                     if(TextUtils.isEmpty(selectedType)) {
-                        typeError.setVisibility(View.VISIBLE);
+                        showAlert(relativeLayout, "Select a type");
                     } else {
                         prevLayout.setVisibility(View.GONE);
                         prevLayout.startAnimation(zoomOut);
-                        typeError.setVisibility(View.GONE);
                         typeLayout.setVisibility(View.GONE);
                         typeLayout.startAnimation(slideLeftCurrent);
                         successLayout.setVisibility(View.VISIBLE);
@@ -209,6 +203,15 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     };
+
+    private void showAlert(View view, String message) {
+        Snackbar snackbar = Snackbar.make(view, message, Snackbar.LENGTH_LONG);
+        View snackBarView = snackbar.getView();
+        snackBarView.setBackgroundColor(getResources().getColor(R.color.primaryBtnColor));
+        TextView textView = (TextView) snackBarView.findViewById(android.support.design.R.id.snackbar_text);
+        textView.setTextColor(getResources().getColor(R.color.white));
+        snackbar.show();
+    }
 
     public boolean isValidEmail(CharSequence target) {
         return (!TextUtils.isEmpty(target) && Patterns.EMAIL_ADDRESS.matcher(target).matches());
